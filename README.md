@@ -1,74 +1,83 @@
-
 # ESP BLE Provisioning
 
-This project demonstrates Bluetooth Low Energy (BLE) provisioning with an ESP32 device, using the ESP-IDF framework. BLE provisioning allows secure configuration of Wi-Fi credentials via a mobile app, making it ideal for IoT devices.
+This project demonstrates BLE-based Wi-Fi provisioning for ESP32 using ESP-IDF. The example showcases how to connect an ESP32 device to a Wi-Fi network by provisioning it with credentials from a mobile device using BLE (Bluetooth Low Energy).
 
 ## Table of Contents
-- [Features](#features)
-- [Requirements](#requirements)
-- [Setup Instructions](#setup-instructions)
-- [Provisioning Process](#provisioning-process)
-- [Troubleshooting](#troubleshooting)
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+- [Hardware Requirements](#hardware-requirements)
+- [Installation](#installation)
+- [Usage](#usage)
 - [References](#references)
+- [License](#license)
 
-## Features
-- Provision Wi-Fi credentials via BLE using the ESP BLE Provisioning App.
-- Secure Wi-Fi setup without hardcoding credentials in code.
-- Easy to connect and manage ESP32 devices in different network environments.
+## Overview
 
-## Requirements
-- **Hardware**: ESP32 development board with BLE and Wi-Fi support.
-- **Software**:
-  - [ESP-IDF](https://github.com/espressif/esp-idf) (version 4.0+)
-  - [ESP BLE Provisioning App](https://play.google.com/store/apps/details?id=com.espressif.provble) (Google Play)
+ESP BLE Provisioning allows an ESP32 device to be configured over BLE to connect to a Wi-Fi network. This eliminates the need to hardcode Wi-Fi credentials, enabling flexibility for devices in changing network environments.
 
-## Setup Instructions
+## Getting Started
 
-### 1. Install ESP-IDF
-Follow the [ESP-IDF setup guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html) to install ESP-IDF.
+To get started, make sure you have the following:
+- [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html) environment set up on your development machine.
+- An ESP32 development board.
+- The [ESP BLE Provisioning App](https://play.google.com/store/apps/details?id=com.espressif.provble) (available on the Google Play Store).
 
-### 2. Download the Example Code
-Clone the example code from ESP-IDF's provisioning directory:
-```bash
-cd $IDF_PATH/examples/provisioning/ble_prov
-```
+## Hardware Requirements
 
-### 3. Configure the Project
-Connect the ESP32 to your computer. Open ESP-IDF's menuconfig to configure the board:
-```bash
-idf.py set-target esp32
-idf.py menuconfig
-```
-- Select a partition scheme like **No OTA (2MB app/2MB SPIFFS)** to allow sufficient space.
-- Save and exit.
+- ESP32 Development Board (e.g., ESP32-WROOM, ESP32-WROVER)
+- USB Cable
+- Mobile Device with BLE support
 
-### 4. Build and Flash
-Compile and upload the code to the ESP32 device:
-```bash
-idf.py build
-idf.py flash monitor
-```
+## Installation
 
-## Provisioning Process
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/Hitesh-jadhav/ESP-BLE-Provisioning.git
+   cd ESP-BLE-Provisioning
+   ```
 
-1. Install the **ESP BLE Provisioning App** on your smartphone.
-2. Open the app and scan for devices. Select your ESP32 (default name: `PROV_1234`).
-3. When prompted, enter the **Proof of Possession (POP)** code: `abcd1234`.
-4. Enter the Wi-Fi SSID and password in the app to send credentials to the ESP32.
+2. **Setup ESP-IDF**
+   Make sure ESP-IDF is installed and set up according to the [ESP-IDF Installation Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html).
 
-Once connected, the ESP32 will save these credentials and use them to reconnect to Wi-Fi in the future.
+3. **Build and Flash the Code**
+   - Navigate to the project directory and use the following commands:
+     ```bash
+     idf.py set-target esp32
+     idf.py build
+     idf.py flash
+     ```
 
-## Troubleshooting
+## Usage
 
-- **Sketch Too Large**: If you receive a "Sketch too big" error, try changing the partition scheme in `menuconfig`.
-- **BLE Connection Issues**: Ensure that BLE is enabled on the ESP32 and that your phone's Bluetooth is on.
-- **Wi-Fi Connection Failure**: Double-check the Wi-Fi credentials and make sure the ESP32 is within range of the router.
+1. After flashing the code, open the serial monitor to observe the logs.
+   ```bash
+   idf.py monitor
+   ```
+
+2. The ESP32 device will start advertising its BLE service for provisioning. You should see a message like:
+   ```
+   Provisioning started. Connect with the ESP BLE Provisioning App.
+   ```
+
+3. **Using the Mobile App for Provisioning**
+   - Open the [ESP BLE Provisioning App](https://play.google.com/store/apps/details?id=com.espressif.provble) on your mobile device.
+   - Connect to the ESP32 by selecting the advertised service.
+   - Enter the Wi-Fi credentials (SSID and Password) in the app.
+   - Upon successful provisioning, the ESP32 will attempt to connect to the Wi-Fi network.
+
+4. Once connected, the device will display its IP address in the serial monitor.
 
 ## References
-- [ESP-IDF BLE Provisioning Example](https://github.com/espressif/esp-idf/tree/master/examples/provisioning)
-- [ESP BLE Provisioning App](https://play.google.com/store/apps/details?id=com.espressif.provble)
-- [Random Nerd Tutorials - ESP32 BLE Provisioning](https://randomnerdtutorials.com/esp32-wi-fi-provisioning-ble-arduino/)
+
+- [ESP-IDF BLE Provisioning Documentation](https://github.com/espressif/esp-idf/tree/master/examples/provisioning)
+- [ESP BLE Provisioning Mobile App](https://play.google.com/store/apps/details?id=com.espressif.provble)
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-This guide provides step-by-step instructions to set up BLE provisioning on an ESP32 device, using the ESP-IDF framework and ESP BLE Provisioning App.
+Feel free to contribute to this project by submitting pull requests or reporting issues!
+
+Happy provisioning!
